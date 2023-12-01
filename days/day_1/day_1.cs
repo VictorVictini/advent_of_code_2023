@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 namespace AdventOfCode2023 {
     class Day1 {
         public Day1() {
-            string input = File.ReadAllText("day_1/input.txt");
+            string input = File.ReadAllText("days/day_1/input.txt");
             Console.WriteLine("Part 1 is " + Part1(input));
             Console.WriteLine("Part 2 is " + Part2(input));
         }
