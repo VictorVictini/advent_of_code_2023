@@ -4,8 +4,8 @@ namespace AdventOfCode2023 {
     public class Day2 : Day {
         enum Limits {
             red = 12,
-            green = 13,
-            blue = 14
+            green,
+            blue
         }
 
         // array of dictionaries, holding the highest value for each colour in a game
