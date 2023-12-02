@@ -1,5 +1,4 @@
 using System.Text.RegularExpressions;
-using System.Text;
 using AdventOfCode2023;
 namespace AdventOfCode2023 {
     public class Day2 : Day {
@@ -9,7 +8,7 @@ namespace AdventOfCode2023 {
             blue = 14
         }
 
-        // array of dictionaries, holding the highest value for a relevant game
+        // array of dictionaries, holding the highest value for each colour in a game
         private Dictionary<string, int>[] ParseInput() {
             string[] input = File.ReadAllLines("days/day_2/input.txt");
             Dictionary<string, int>[] games = new Dictionary<string, int>[input.Length];
