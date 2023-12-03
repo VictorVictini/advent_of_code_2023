@@ -31,13 +31,13 @@ namespace AdventOfCode2023 {
             Dictionary<Symbol, List<int>> symbols = new Dictionary<Symbol, List<int>>();
             for (int y = 0; y < input.Length; y++) {
                 for (int x = 0; x < input[y].Length; x++) {
-                    if (Char.IsDigit(input[y][x]) || input[y][x] == '.') continue;
+                    if (input[y][x] >= '0' && input[y][x] <= '9' || input[y][x] == '.') continue;
                     Symbol symbol = new Symbol(x, y, input[y][x]);
                     for (int currY = y - 1; currY <= y + 1 && currY < input.Length; currY++) {
                         if (currY < 0) continue;
                         for (int currX = x - 1; currX <= x + 1 && currX < input[currY].Length; currX++) {
                             if (currX < 0) continue;
-                            if (!Char.IsDigit(input[currY][currX])) continue;
+                            if (input[currY][currX] < '0' || input[currY][currX] > '9') continue;
                             int num = FindNumber(input[currY], currX);
                             if (symbols.ContainsKey(symbol)) {
                                 symbols[symbol].Add(num);
