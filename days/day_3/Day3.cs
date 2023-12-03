@@ -9,6 +9,10 @@ namespace AdventOfCode2023 {
                 this.symbol = symbol;
             }
         }
+        Dictionary<Symbol, List<int>> symbols;
+        public Day3() {
+            symbols = ParseInput();
+        }
         // finds the number in input at position pos (looking for the longest possible number including the relevant position)
         private int FindNumber(string input, int pos) {
             if (pos >= input.Length) throw new ArgumentOutOfRangeException(nameof(pos), "Position provided is too large");
@@ -48,7 +52,6 @@ namespace AdventOfCode2023 {
             return symbols;
         }
         public override int Part1() {
-            Dictionary<Symbol, List<int>> symbols = ParseInput();
             int sum = 0;
             foreach (KeyValuePair<Symbol, List<int>> pair in symbols) {
                 for (int i = 0; i < pair.Value.Count; i++) sum += pair.Value[i];
@@ -56,7 +59,6 @@ namespace AdventOfCode2023 {
             return sum;
         }
         public override int Part2() {
-            Dictionary<Symbol, List<int>> symbols = ParseInput();
             int sum = 0;
             foreach (KeyValuePair<Symbol, List<int>> pair in symbols) {
                 if (pair.Key.symbol != '*') continue;
