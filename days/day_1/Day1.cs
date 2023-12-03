@@ -2,11 +2,14 @@ using System.Text.RegularExpressions;
 
 namespace AdventOfCode2023 {
     public class Day1 : Day {
+        private string input;
+        public Day1() {
+            input = ReadFile();
+        }
         private string ReadFile() {
             return File.ReadAllText("days/day_1/input.txt");
         }
         public override int Part1() {
-            string input = ReadFile();
             // using regex for indexOf and lastIndexOf, since it seemed funny to do
             Regex reg = new Regex(@"^.*?(?=.*(\d))(\d)", RegexOptions.Compiled | RegexOptions.Multiline);
             MatchCollection matches = reg.Matches(input);
@@ -18,7 +21,6 @@ namespace AdventOfCode2023 {
             return sum;
         }
         public override int Part2() {
-            string input = ReadFile();
             Dictionary<string, int> dict = new Dictionary<string, int>{
                 {"one",     1},
                 {"two",     2},

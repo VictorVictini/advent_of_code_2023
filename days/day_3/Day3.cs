@@ -1,5 +1,3 @@
-using System.Text.RegularExpressions;
-
 namespace AdventOfCode2023 {
     public class Day3 : Day {
         private struct Symbol {
@@ -14,9 +12,9 @@ namespace AdventOfCode2023 {
         // finds the number in input at position pos (looking for the longest possible number including the relevant position)
         private int FindNumber(string input, int pos) {
             if (pos >= input.Length) throw new ArgumentOutOfRangeException(nameof(pos), "Position provided is too large");
-            while(pos >= 0 && Char.IsNumber(input[pos])) pos--;
+            while(pos >= 0 && Char.IsDigit(input[pos])) pos--;
             int num = 0;
-            for (pos++; pos < input.Length && Char.IsNumber(input[pos]); pos++) {
+            for (pos++; pos < input.Length && Char.IsDigit(input[pos]); pos++) {
                 num = num * 10 + (input[pos] - '0');
             }
             return num;
@@ -29,20 +27,20 @@ namespace AdventOfCode2023 {
             Dictionary<Symbol, List<int>> symbols = new Dictionary<Symbol, List<int>>();
             for (int y = 0; y < input.Length; y++) {
                 for (int x = 0; x < input[y].Length; x++) {
-                    if (Char.IsNumber(input[y][x]) || input[y][x] == '.') continue;
+                    if (Char.IsDigit(input[y][x]) || input[y][x] == '.') continue;
                     Symbol symbol = new Symbol(x, y, input[y][x]);
                     for (int currY = y - 1; currY <= y + 1 && currY < input.Length; currY++) {
                         if (currY < 0) continue;
                         for (int currX = x - 1; currX <= x + 1 && currX < input[currY].Length; currX++) {
                             if (currX < 0) continue;
-                            if (!Char.IsNumber(input[currY][currX])) continue;
+                            if (!Char.IsDigit(input[currY][currX])) continue;
                             int num = FindNumber(input[currY], currX);
                             if (symbols.ContainsKey(symbol)) {
                                 symbols[symbol].Add(num);
                             } else {
                                 symbols.Add(symbol, new List<int>{num});
                             }
-                            if (currX + 1 < input[currY].Length && Char.IsNumber(input[currY][currX + 1])) break; // if the next character is a number, whole row (of 3) is irrelevant
+                            if (currX + 1 < input[currY].Length && Char.IsDigit(input[currY][currX + 1])) break; // if the next character is a number, whole row (of 3) is irrelevant
                         }
                     }
                 }
