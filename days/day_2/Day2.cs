@@ -2,10 +2,14 @@ using System.Text.RegularExpressions;
 
 namespace AdventOfCode2023 {
     public class Day2 : Day {
+        Dictionary<string, int>[] games;
         enum Limits {
             red = 12,
             green,
             blue
+        }
+        public Day2() {
+            games = ParseInput();
         }
 
         // array of dictionaries, holding the highest value for each colour in a game
@@ -30,7 +34,6 @@ namespace AdventOfCode2023 {
             return games;
         }
         public override int Part1() {
-            Dictionary<string, int>[] games = ParseInput();
             int sum = 0;
             for (int i = 0; i < games.Length; i++) {
                 bool valid = true;
@@ -42,7 +45,6 @@ namespace AdventOfCode2023 {
             return sum;
         }
         public override int Part2() {
-            Dictionary<string, int>[] games = ParseInput();
             int sum = 0;
             for (int i = 0; i < games.Length; i++) {
                 sum += games[i]["red"] * games[i]["green"] * games[i]["blue"];
