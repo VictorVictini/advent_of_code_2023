@@ -1,5 +1,4 @@
 using System.Text.RegularExpressions;
-using AdventOfCode2023;
 
 namespace AdventOfCode2023 {
     public class Day1 : Day {

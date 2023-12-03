@@ -1,6 +1,4 @@
-﻿using AdventOfCode2023;
-
-namespace AdventOfCode2023 {
+﻿namespace AdventOfCode2023 {
     public class Program {
         private static void Main() {
             int dayNum = WithinLimit(2);
