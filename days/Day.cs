@@ -5,12 +5,10 @@ namespace AdventOfCode2023 {
             Console.WriteLine("Part 2 is " + this.Part2());
         }
         public virtual T Part1() {
-            T data = new();
-            return data;
+            return new();
         }
         public virtual T Part2() {
-            T data = new();
-            return data;
+            return new();
         }
     }
 }
