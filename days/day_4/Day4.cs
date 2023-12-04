@@ -1,7 +1,7 @@
 using System.Text.RegularExpressions;
 
 namespace AdventOfCode2023 {
-    public class Day4 : Day {
+    public class Day4 : Day<int> {
         HashSet<int>[] winning;
         int[][] nums;
         public Day4() {

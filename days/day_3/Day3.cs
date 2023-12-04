@@ -1,5 +1,5 @@
 namespace AdventOfCode2023 {
-    public class Day3 : Day {
+    public class Day3 : Day<int> {
         private struct Symbol {
             public int x, y;
             public char symbol;

@@ -1,7 +1,7 @@
 using System.Text.RegularExpressions;
 
 namespace AdventOfCode2023 {
-    public class Day2 : Day {
+    public class Day2 : Day<int> {
         Dictionary<string, int>[] games;
         enum Limits {
             red = 12,

@@ -1,7 +1,7 @@
 using System.Text.RegularExpressions;
 
 namespace AdventOfCode2023 {
-    public class Day1 : Day {
+    public class Day1 : Day<int> {
         private string input;
         public Day1() {
             input = ReadFile();
