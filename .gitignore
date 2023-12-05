@@ -3,4 +3,5 @@ README.md
 LICENSE
 bin
 obj
-Days/format.cs
+format.cs
+input.txt
