@@ -1,7 +1,7 @@
 ﻿namespace AdventOfCode2023 {
     public class Program {
         private static void Main() {
-            int dayNum = WithinLimit(5);
+            int dayNum = WithinLimit(6);
             switch (dayNum) {
                 case 1:
                     new Day1().OutputParts();
@@ -17,6 +17,9 @@
                     break;
                 case 5:
                     new Day5().OutputParts();
+                    break;
+                case 6:
+                    new Day6().OutputParts();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(dayNum), "Encountered a day not in the switch statement");
