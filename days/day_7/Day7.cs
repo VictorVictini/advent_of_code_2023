@@ -8,6 +8,15 @@ namespace AdventOfCode2023 {
                 this.bid = bid;
             }
         }
+        struct CardType {
+            public string card;
+            public int bid, type;
+            public CardType(CardBid cardBid, int type) {
+                card = cardBid.card;
+                bid = cardBid.bid;
+                this.type = type;
+            }
+        }
         CardBid[] cards;
         public Day7() {
             cards = ParseInput();
@@ -23,31 +32,30 @@ namespace AdventOfCode2023 {
             }
             return cardbids;
         }
-        private void QuickSort(CardBid[] arr, int start, int end, bool isPart2) {
+        private void QuickSort(CardType[] arr, int start, int end, bool isPart2) {
             if (end <= start) return;
             int pivot = Partition(arr, start, end, isPart2);
             QuickSort(arr, start, pivot - 1, isPart2);
             QuickSort(arr, pivot + 1, end, isPart2);
         }
-        private int Partition(CardBid[] arr, int start, int end, bool isPart2) {
-            CardBid pivotVal = arr[end], temp;
-            int i = start;
-            for (int j = start; j < end; j++) {
-                if (LessThan(arr[j].card, pivotVal.card, isPart2)) {
-                    temp = arr[i];
-                    arr[i] = arr[j];
-                    arr[j] = temp;
-                    i++;
+        private int Partition(CardType[] arr, int start, int end, bool isPart2) {
+            CardType pivotVal = arr[end], temp;
+            int pivot = start;
+            for (int i = start; i < end; i++) {
+                if (LessThan(arr[i], pivotVal, isPart2)) {
+                    temp = arr[pivot];
+                    arr[pivot] = arr[i];
+                    arr[i] = temp;
+                    pivot++;
                 }
             }
-            temp = arr[i];
-            arr[i] = pivotVal;
+            temp = arr[pivot];
+            arr[pivot] = pivotVal;
             arr[end] = temp;
-            return i;
+            return pivot;
         }
-        private bool LessThan(string a, string b, bool isPart2) {
-            int typeA = CalculateType(a, isPart2), typeB = CalculateType(b, isPart2);
-            if (typeA == typeB) {
+        private bool LessThan(CardType a, CardType b, bool isPart2) {
+            if (a.type == b.type) {
                 Dictionary<char, int> strengths = new Dictionary<char, int>{
                     {'2', 2},
                     {'3', 3},
@@ -64,11 +72,11 @@ namespace AdventOfCode2023 {
                     {'A', 14}
                 };
                 if (isPart2) strengths['J'] = 1;
-                for (int i = 0; i < a.Length; i++) { // assume a.Length == b.Length
-                    if (a[i] != b[i]) return strengths[a[i]] < strengths[b[i]];
+                for (int i = 0; i < a.card.Length; i++) { // assume a.card.Length == b.card.Length
+                    if (a.card[i] != b.card[i]) return strengths[a.card[i]] < strengths[b.card[i]];
                 }
             }
-            return typeA < typeB;
+            return a.type < b.type;
         }
         // 1 = High card, 2 = One pair, ..., 6 = Four of a kind, 7 = Five of a kind
         private int CalculateType(string card, bool isPart2) {
@@ -105,26 +113,29 @@ namespace AdventOfCode2023 {
             }
             return -1;
         }
-        private int CalculateSum(CardBid[] cardBids) {
+        private int CalculateSum(CardType[] cardTypes) {
             int sum = 0;
-            for (int i = 0; i < cardBids.Length; i++) {
-                sum += (i + 1) * cardBids[i].bid;
+            for (int i = 0; i < cardTypes.Length; i++) {
+                sum += (i + 1) * cardTypes[i].bid;
             }
             return sum;
         }
-        public override int Part1() {
-            // we make a copy so that the original data is unsorted, to prevent Part2 from being slower, as quicksort is not very good with nearly sorted data
-            CardBid[] cardBids = new CardBid[cards.Length];
-            for (int i = 0; i < cards.Length; i++) {
-                cardBids[i] = new CardBid(cards[i].card, cards[i].bid);
+        private CardType[] CreateCardTypes(CardBid[] cardBids, bool isPart2) {
+            CardType[] cardTypes = new CardType[cardBids.Length];
+            for (int i = 0; i < cardBids.Length; i++) {
+                cardTypes[i] = new CardType(cardBids[i], CalculateType(cardBids[i].card, isPart2));
             }
-            
-            QuickSort(cardBids, 0, cardBids.Length - 1, false);
-            return CalculateSum(cardBids);
+            return cardTypes;
+        }
+        public override int Part1() {
+            CardType[] cardTypes = CreateCardTypes(cards, false);
+            QuickSort(cardTypes, 0, cardTypes.Length - 1, false);
+            return CalculateSum(cardTypes);
         }
         public override int Part2() {
-            QuickSort(cards, 0, cards.Length - 1, true);
-            return CalculateSum(cards);
+            CardType[] cardTypes = CreateCardTypes(cards, true);
+            QuickSort(cardTypes, 0, cardTypes.Length - 1, true);
+            return CalculateSum(cardTypes);
         }
     }
 }
