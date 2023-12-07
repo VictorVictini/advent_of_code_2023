@@ -1,32 +1,41 @@
-﻿namespace AdventOfCode2023 {
+﻿using System.Diagnostics;
+
+namespace AdventOfCode2023 {
     public class Program {
-        private static void Main() {
+        private static void Main() { // will clean up later
             int dayNum = WithinLimit(7);
+            dynamic day;
+            Stopwatch watch = new Stopwatch();
+            watch.Start();
             switch (dayNum) {
                 case 1:
-                    new Day1().OutputParts();
+                    day = new Day1();
                     break;
                 case 2:
-                    new Day2().OutputParts();
+                    day = new Day2();
                     break;
                 case 3:
-                    new Day3().OutputParts();
+                    day = new Day3();
                     break;
                 case 4:
-                    new Day4().OutputParts();
+                    day = new Day4();
                     break;
                 case 5:
-                    new Day5().OutputParts();
+                    day = new Day5();
                     break;
                 case 6:
-                    new Day6().OutputParts();
+                    day = new Day6();
                     break;
                 case 7:
-                    new Day7().OutputParts();
+                    day = new Day7();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(dayNum), "Encountered a day not in the switch statement");
             }
+            watch.Stop();
+            TimeSpan ts = watch.Elapsed;
+            Console.WriteLine(String.Format("Parsing the input.txt file took: {0:00}:{1:00}:{2:00}.{3:000}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds));
+            day.OutputParts();
         }
 
         private static int WithinLimit(int end) {
