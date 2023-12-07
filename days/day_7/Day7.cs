@@ -9,6 +9,21 @@ namespace AdventOfCode2023 {
             }
         }
         CardBid[] cards;
+        Dictionary<char, int> strengths = new Dictionary<char, int>{
+            {'2', 2},
+            {'3', 3},
+            {'4', 4},
+            {'5', 5},
+            {'6', 6},
+            {'7', 7},
+            {'8', 8},
+            {'9', 9},
+            {'T', 10},
+            {'J', 11},
+            {'Q', 12},
+            {'K', 13},
+            {'A', 14}
+        };
         public Day7() {
             cards = ParseInput();
         }
@@ -46,22 +61,7 @@ namespace AdventOfCode2023 {
             return pivot;
         }
         private bool LessThan(string a, string b, bool isPart2) {
-            Dictionary<char, int> strengths = new Dictionary<char, int>{
-                {'2', 2},
-                {'3', 3},
-                {'4', 4},
-                {'5', 5},
-                {'6', 6},
-                {'7', 7},
-                {'8', 8},
-                {'9', 9},
-                {'T', 10},
-                {'J', 11},
-                {'Q', 12},
-                {'K', 13},
-                {'A', 14}
-            };
-            if (isPart2) strengths['J'] = 1;
+            strengths['J'] = isPart2 ? 1 : 11;
             for (int i = 0; i < a.Length; i++) { // assume a.Length == b.Length
                 if (a[i] != b[i]) return strengths[a[i]] < strengths[b[i]];
             }
@@ -103,7 +103,7 @@ namespace AdventOfCode2023 {
             return -1;
         }
         private int CalculateSum(Dictionary<int, List<CardBid>> types, bool isPart2) {
-             int sum = 0;
+            int sum = 0;
             for (int rank = 1, type = 1; type <= 7; type++) {
                 QuickSort(types[type], 0, types[type].Count - 1, isPart2);
                 for (int i = 0; i < types[type].Count; i++, rank++) {
