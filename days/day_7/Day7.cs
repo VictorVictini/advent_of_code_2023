@@ -8,15 +8,6 @@ namespace AdventOfCode2023 {
                 this.bid = bid;
             }
         }
-        struct CardType {
-            public string card;
-            public int bid, type;
-            public CardType(CardBid cardBid, int type) {
-                card = cardBid.card;
-                bid = cardBid.bid;
-                this.type = type;
-            }
-        }
         CardBid[] cards;
         public Day7() {
             cards = ParseInput();
@@ -32,17 +23,17 @@ namespace AdventOfCode2023 {
             }
             return cardbids;
         }
-        private void QuickSort(CardType[] arr, int start, int end, bool isPart2) {
+        private void QuickSort(List<CardBid> arr, int start, int end, bool isPart2) {
             if (end <= start) return;
             int pivot = Partition(arr, start, end, isPart2);
             QuickSort(arr, start, pivot - 1, isPart2);
             QuickSort(arr, pivot + 1, end, isPart2);
         }
-        private int Partition(CardType[] arr, int start, int end, bool isPart2) {
-            CardType pivotVal = arr[end], temp;
+        private int Partition(List<CardBid> arr, int start, int end, bool isPart2) {
+            CardBid pivotVal = arr[end], temp;
             int pivot = start;
             for (int i = start; i < end; i++) {
-                if (LessThan(arr[i], pivotVal, isPart2)) {
+                if (LessThan(arr[i].card, pivotVal.card, isPart2)) {
                     temp = arr[pivot];
                     arr[pivot] = arr[i];
                     arr[i] = temp;
@@ -54,29 +45,27 @@ namespace AdventOfCode2023 {
             arr[end] = temp;
             return pivot;
         }
-        private bool LessThan(CardType a, CardType b, bool isPart2) {
-            if (a.type == b.type) {
-                Dictionary<char, int> strengths = new Dictionary<char, int>{
-                    {'2', 2},
-                    {'3', 3},
-                    {'4', 4},
-                    {'5', 5},
-                    {'6', 6},
-                    {'7', 7},
-                    {'8', 8},
-                    {'9', 9},
-                    {'T', 10},
-                    {'J', 11},
-                    {'Q', 12},
-                    {'K', 13},
-                    {'A', 14}
-                };
-                if (isPart2) strengths['J'] = 1;
-                for (int i = 0; i < a.card.Length; i++) { // assume a.card.Length == b.card.Length
-                    if (a.card[i] != b.card[i]) return strengths[a.card[i]] < strengths[b.card[i]];
-                }
+        private bool LessThan(string a, string b, bool isPart2) {
+            Dictionary<char, int> strengths = new Dictionary<char, int>{
+                {'2', 2},
+                {'3', 3},
+                {'4', 4},
+                {'5', 5},
+                {'6', 6},
+                {'7', 7},
+                {'8', 8},
+                {'9', 9},
+                {'T', 10},
+                {'J', 11},
+                {'Q', 12},
+                {'K', 13},
+                {'A', 14}
+            };
+            if (isPart2) strengths['J'] = 1;
+            for (int i = 0; i < a.Length; i++) { // assume a.Length == b.Length
+                if (a[i] != b[i]) return strengths[a[i]] < strengths[b[i]];
             }
-            return a.type < b.type;
+            return false;
         }
         // 1 = High card, 2 = One pair, ..., 6 = Four of a kind, 7 = Five of a kind
         private int CalculateType(string card, bool isPart2) {
@@ -113,29 +102,38 @@ namespace AdventOfCode2023 {
             }
             return -1;
         }
-        private int CalculateSum(CardType[] cardTypes) {
-            int sum = 0;
-            for (int i = 0; i < cardTypes.Length; i++) {
-                sum += (i + 1) * cardTypes[i].bid;
+        private int CalculateSum(Dictionary<int, List<CardBid>> types, bool isPart2) {
+             int sum = 0;
+            for (int rank = 1, type = 1; type <= 7; type++) {
+                QuickSort(types[type], 0, types[type].Count - 1, isPart2);
+                for (int i = 0; i < types[type].Count; i++, rank++) {
+                    sum += rank * types[type][i].bid;
+                }
             }
             return sum;
         }
-        private CardType[] CreateCardTypes(CardBid[] cardBids, bool isPart2) {
-            CardType[] cardTypes = new CardType[cardBids.Length];
+        private Dictionary<int, List<CardBid>> CreateCardTypes(CardBid[] cardBids, bool isPart2) {
+            Dictionary<int, List<CardBid>> types = new Dictionary<int, List<CardBid>>{
+                {1, new List<CardBid>()},
+                {2, new List<CardBid>()},
+                {3, new List<CardBid>()},
+                {4, new List<CardBid>()},
+                {5, new List<CardBid>()},
+                {6, new List<CardBid>()},
+                {7, new List<CardBid>()}
+            };
             for (int i = 0; i < cardBids.Length; i++) {
-                cardTypes[i] = new CardType(cardBids[i], CalculateType(cardBids[i].card, isPart2));
+                types[CalculateType(cardBids[i].card, isPart2)].Add(cardBids[i]);
             }
-            return cardTypes;
+            return types;
         }
         public override int Part1() {
-            CardType[] cardTypes = CreateCardTypes(cards, false);
-            QuickSort(cardTypes, 0, cardTypes.Length - 1, false);
-            return CalculateSum(cardTypes);
+            Dictionary<int, List<CardBid>> types = CreateCardTypes(cards, false);
+            return CalculateSum(types, false);
         }
         public override int Part2() {
-            CardType[] cardTypes = CreateCardTypes(cards, true);
-            QuickSort(cardTypes, 0, cardTypes.Length - 1, true);
-            return CalculateSum(cardTypes);
+            Dictionary<int, List<CardBid>> types = CreateCardTypes(cards, true);
+            return CalculateSum(types, true);
         }
     }
 }
