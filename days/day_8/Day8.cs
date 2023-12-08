@@ -1,5 +1,3 @@
-using System.ComponentModel;
-
 namespace AdventOfCode2023 {
     public class Day8 : Day<long> {
         string steps;
