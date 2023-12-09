@@ -11,7 +11,7 @@ namespace AdventOfCode2023 {
             TimeSpan ts = watch.Elapsed;
             string time1 = String.Format("{0:00}:{1:00}:{2:00}.{3:000}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds);
 
-            watch.Start();
+            watch.Restart();
             T res2 = this.Part2();
             watch.Stop();
             ts = watch.Elapsed;
