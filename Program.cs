@@ -41,6 +41,9 @@ namespace AdventOfCode2023 {
                 case 11:
                     day = new Day11();
                     break;
+                case 14:
+                    day = new Day14();
+                    break;
                 case 15:
                     day = new Day15();
                     break;
