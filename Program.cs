@@ -3,7 +3,7 @@
 namespace AdventOfCode2023 {
     public class Program {
         private static void Main() { // will clean up later
-            int dayNum = WithinLimit(16); // skipping a few days for now, will get back to them later
+            int dayNum = WithinLimit(24); // skipping a few days for now, will get back to them later
             dynamic day;
             Stopwatch watch = new Stopwatch();
             watch.Start();
@@ -49,6 +49,9 @@ namespace AdventOfCode2023 {
                     break;
                 case 16:
                     day = new Day16();
+                    break;
+                case 24:
+                    day = new Day24();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(dayNum), "Encountered a day not in the switch statement");
